@@ -4,12 +4,14 @@ const nodemailer = require('nodemailer');
 const admin = require('firebase-admin');
 
 // Initialize Firebase Admin SDK
-const serviceAccount = require('./path/to/your/serviceAccountKey.json');
+const serviceAccount = {
+    projectId: process.env.FB_PROJECT_ID,
+    privateKey: process.env.FB_PRIVATE_KEY.replace(/\\n/g, '\n'),  // To handle multiline private key
+    clientEmail: process.env.FB_CLIENT_EMAIL
+};
 admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    databaseURL: 'https://your-firebase-database-url.firebaseio.com'
+    credential: admin.credential.cert(serviceAccount)
 });
-
 // Set up the app
 const app = express();
 const port = process.env.PORT || 5000;
