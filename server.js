@@ -35,6 +35,7 @@ app.post('/send-email', (req, res) => {
             user: process.env.EMAIL_USER, // Add your email here
             pass: process.env.EMAIL_PASS  // Add your email password here
         }
+
     });
 
     // Mail options
@@ -52,6 +53,7 @@ app.post('/send-email', (req, res) => {
             return res.status(500).send('Error sending email');
         }
         console.log('Email sent: ' + info.response);
+        console.error("Email error:", error);
         return res.status(200).send('Email sent successfully');
     });
 });
