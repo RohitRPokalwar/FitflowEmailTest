@@ -12,9 +12,10 @@ const serviceAccount = {
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
+
 // Set up the app
 const app = express();
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 10000;
 
 // Middleware for parsing JSON bodies
 app.use(express.json());
@@ -32,15 +33,14 @@ app.post('/send-email', (req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: process.env.EMAIL_USER, // Add your email here
-            pass: process.env.EMAIL_PASS  // Add your email password here
+            user: process.env.EMAIL_USER, // Your email here
+            pass: process.env.EMAIL_PASS  // Your email password here (use environment variables for security)
         }
-
     });
 
     // Mail options
     const mailOptions = {
-        from: process.env.EMAIL_USER,
+        from: process.env.EMAIL_USER,  // Your email here
         to: email,
         subject: subject,
         text: message
@@ -53,7 +53,6 @@ app.post('/send-email', (req, res) => {
             return res.status(500).send('Error sending email');
         }
         console.log('Email sent: ' + info.response);
-        console.error("Email error:", error);
         return res.status(200).send('Email sent successfully');
     });
 });
